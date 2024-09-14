@@ -1,4 +1,0 @@
-module BunnyTweakC {
-    umbrella "."
-    export *
-}
