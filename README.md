@@ -23,8 +23,8 @@ Builds can be found in the [Releases](https://github.com/revenge-mod/RevengeTwea
 
 ### Jailed
 
-<a href="https://tinyurl.com/24zjszuf"><img src="https://i.imgur.com/dsbDLK9.png" width="230"></a>
-<a href="https://tinyurl.com/yh455zk6"><img src="https://i.imgur.com/46qhEAv.png" width="230"></a>
+<a href="https://tinyurl.com/2wsywcbw"><img src="https://i.imgur.com/dsbDLK9.png" width="230"></a>
+<a href="https://tinyurl.com/bdha3x3h"><img src="https://i.imgur.com/46qhEAv.png" width="230"></a>
 
 > [!NOTE]
 > TrollStore may display an encryption warning, which you can disregard.
