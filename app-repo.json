@@ -12,6 +12,12 @@
       "subtitle": "A client mod for Discord",
       "tintColor": "7289da",
       "versions": [
+        {
+          "version": "246.0",
+          "date": "2024-09-14",
+          "size": 103194075,
+          "downloadURL": "https://github.com/Cristiandis/RevengeTweak/releases/download/v246.0/Revenge.ipa"
+        }
       ],
       "appPermissions": {}
     }
