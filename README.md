@@ -58,7 +58,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/i
 
 If you've already installed theos, you can run `$THEOS/bin/update-theos` to make sure it's up to date.
 
-5. Clone this repository with `git clone git@github.com:Revenge/Tweak.git` and `cd` into it. Replace the URL with your fork if you've forked this repository.
+5. Clone this repository with `git clone git@github.com:revenge-mod/RevengeTweak.git` and `cd` into it. Replace the URL with your fork if you've forked this repository.
 
 6. To build RevengeTweak, you can run `rm -rf packages && make clean && make package FINALPACKAGE=1 && make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless`. The first command will remove any previous packages, the second will clean the project, the third will build the rootful package (which is denoted by the `arm.deb` ending), and the fourth will build the rootless package (which is denoted by the `arm64.deb` ending).
 
