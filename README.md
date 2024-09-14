@@ -1,9 +1,3 @@
-# NOTICE!!!
-This is not the official revenge tweak, and it currently does not work, this project is not affiliated with Revenge
-
-
-
-
 # RevengeTweak
 
 Tweak to inject [Revenge](https://github.com/revenge-mod/Revenge) into Discord. Forked [BunnyTweak](https://github.com/pyoncord/BunnyTweak), modified to match with [RevengeXposed](https://github.com/revenge-mod/RevengeXposed) behavior. There are still slight differences between these two, and this tweak may be missing some loader features.
