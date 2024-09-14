@@ -1,18 +1,18 @@
 import Orion
-import BunnyTweakC
+import RevengeTweakC
 import os
 
-let bunnyLog = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "bunny")
-let source = URL(string: "bunny")!
+let revengeLog = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "revenge")
+let source = URL(string: "revenge")!
 
 let install_prefix = String(cString: get_install_prefix())
-let isJailbroken = FileManager.default.fileExists(atPath: "\(install_prefix)/Library/Application Support/BunnyTweak/BunnyPatches.bundle")
+let isJailbroken = FileManager.default.fileExists(atPath: "\(install_prefix)/Library/Application Support/RevengeTweak/RevengePatches.bundle")
 
-let bunnyPatchesBundlePath = isJailbroken ? "\(install_prefix)/Library/Application Support/BunnyTweak/BunnyPatches.bundle" : "\(Bundle.main.bundleURL.path)/BunnyPatches.bundle"
+let revengePatchesBundlePath = isJailbroken ? "\(install_prefix)/Library/Application Support/RevengeTweak/RevengePatches.bundle" : "\(Bundle.main.bundleURL.path)/RevengePatches.bundle"
 
 class FileManagerLoadHook: ClassHook<FileManager> {
   func containerURLForSecurityApplicationGroupIdentifier(_ groupIdentifier: NSString?) -> URL? {
-    os_log("containerURLForSecurityApplicationGroupIdentifier called! %{public}@ groupIdentifier", log: bunnyLog, type: .debug, groupIdentifier ?? "nil")
+    os_log("containerURLForSecurityApplicationGroupIdentifier called! %{public}@ groupIdentifier", log: revengeLog, type: .debug, groupIdentifier ?? "nil")
 
     if (isJailbroken) {
       return orig.containerURLForSecurityApplicationGroupIdentifier(groupIdentifier)
@@ -26,15 +26,15 @@ class FileManagerLoadHook: ClassHook<FileManager> {
 
 class LoadHook: ClassHook<RCTCxxBridge> {
   func executeApplicationScript(_ script: Data, url: URL, async: Bool) {
-    os_log("executeApplicationScript called!", log: bunnyLog, type: .debug)
+    os_log("executeApplicationScript called!", log: revengeLog, type: .debug)
 
     let loaderConfig = getLoaderConfig()
 
-    let bunnyPatchesBundle = Bundle(path: bunnyPatchesBundlePath)!
+    let revengePatchesBundle = Bundle(path: revengePatchesBundlePath)!
 
-    if let patchPath = bunnyPatchesBundle.url(forResource: "payload-base", withExtension: "js") {
+    if let patchPath = revengePatchesBundle.url(forResource: "payload-base", withExtension: "js") {
       let patchData = try! Data(contentsOf: patchPath)
-      os_log("Executing payload base", log: bunnyLog, type: .debug)
+      os_log("Executing payload base", log: revengeLog, type: .debug)
       orig.executeApplicationScript(patchData, url: source, async: true)
     }
 
@@ -48,15 +48,15 @@ class LoadHook: ClassHook<RCTCxxBridge> {
     var bundleUrl: URL
     if loaderConfig.customLoadUrl.enabled {
       os_log(
-        "Custom load URL enabled, with URL %{public}@ ", log: bunnyLog, type: .info,
+        "Custom load URL enabled, with URL %{public}@ ", log: revengeLog, type: .info,
         loaderConfig.customLoadUrl.url.absoluteString)
       bundleUrl = loaderConfig.customLoadUrl.url
     } else {
       bundleUrl = URL(
-        string: "https://raw.githubusercontent.com/pyoncord/bunny-builds/main/bunny.js")!
+        string: "https://github.com/revenge-mod/Revenge/releases/latest/download/revenge.js")!
     }
 
-    os_log("Fetching JS bundle", log: bunnyLog, type: .info)
+    os_log("Fetching JS bundle", log: revengeLog, type: .info)
     var bundleRequest = URLRequest(
       url: bundleUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 3.0)
 
@@ -68,7 +68,7 @@ class LoadHook: ClassHook<RCTCxxBridge> {
 
     let fetchTask = URLSession.shared.dataTask(with: bundleRequest) { data, response, error in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-        os_log("Successfully fetched JS Bundle", log: bunnyLog, type: .debug)
+        os_log("Successfully fetched JS Bundle", log: revengeLog, type: .debug)
         bundle = data
         try? bundle?.write(to: pyoncordDirectory.appendingPathComponent("bundle.js"))
 
@@ -92,40 +92,40 @@ class LoadHook: ClassHook<RCTCxxBridge> {
     }
 
     let preloadsDirectory = pyoncordDirectory.appendingPathComponent("preloads")
-  
+
     if FileManager.default.fileExists(atPath: preloadsDirectory.path) {
       do {
         let contents = try FileManager.default.contentsOfDirectory(
           at: preloadsDirectory, includingPropertiesForKeys: nil, options: [])
-        
+
         for fileURL in contents {
           if fileURL.pathExtension == "js" {
             os_log(
-              "Executing preload JS file %{public}@ ", log: bunnyLog, type: .info, fileURL.absoluteString)
-            
+              "Executing preload JS file %{public}@ ", log: revengeLog, type: .info, fileURL.absoluteString)
+
             if let data = try? Data(contentsOf: fileURL) {
               orig.executeApplicationScript(data, url: source, async: async)
             }
           }
         }
       } catch {
-        os_log("Error reading contents of preloads directory", log: bunnyLog, type: .error)
+        os_log("Error reading contents of preloads directory", log: revengeLog, type: .error)
       }
     }
 
     if bundle != nil {
-      os_log("Executing JS bundle", log: bunnyLog, type: .info)
+      os_log("Executing JS bundle", log: revengeLog, type: .info)
       orig.executeApplicationScript(bundle!, url: source, async: async)
     } else {
-      os_log("Unable to fetch JS bundle", log: bunnyLog, type: .error)
+      os_log("Unable to fetch JS bundle", log: revengeLog, type: .error)
     }
 
-    os_log("Executing original script", log: bunnyLog, type: .info)
+    os_log("Executing original script", log: revengeLog, type: .info)
     orig.executeApplicationScript(script, url: url, async: async)
   }
 }
 
-struct BunnyTweak: Tweak {
+struct RevengeTweak: Tweak {
   func tweakDidActivate() {
     if let themeData = try? Data(
     contentsOf: pyoncordDirectory.appendingPathComponent("current-theme.json")) {

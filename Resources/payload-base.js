@@ -1,7 +1,7 @@
 globalThis.__PYON_LOADER__ = {
-    loaderName: "BunnyTweak",
-    loaderVersion: "0.3.1",
-    hasThemeSupport: true,
-    storedTheme: null,
-    fontPatch: 2
-}
+  loaderName: "RevengeTweak",
+  loaderVersion: "1.0.0",
+  hasThemeSupport: true,
+  storedTheme: null,
+  fontPatch: 2,
+};

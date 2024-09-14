@@ -1,6 +1,6 @@
 import Orion
 import UIKit
-import BunnyTweakC
+import RevengeTweakC
 import os
 
 struct Author: Codable {
@@ -56,7 +56,7 @@ func hexToUIColor(_ hex: String) -> UIColor? {
 }
 
 func swizzleDCDThemeColor(_ semanticColors: [String: [String]]) {
-  os_log("Swizzling DCDThemeColor", log: bunnyLog, type: .info)
+  os_log("Swizzling DCDThemeColor", log: revengeLog, type: .info)
 
   let DCDTheme: AnyClass = NSClassFromString("DCDTheme")!
   let dcdThemeTarget: AnyClass = object_getClass(DCDTheme)!
@@ -68,25 +68,25 @@ func swizzleDCDThemeColor(_ semanticColors: [String: [String]]) {
   let themeIndex: ThemeIndexType = unsafeBitCast(themeIndexImpl, to: ThemeIndexType.self)
 
   let DCDThemeColor: AnyClass = NSClassFromString("DCDThemeColor")!
-  os_log("Found instance of DCDThemeColor", log: bunnyLog, type: .debug)
+  os_log("Found instance of DCDThemeColor", log: revengeLog, type: .debug)
   let target: AnyClass = object_getClass(DCDThemeColor)!
 
-  os_log("Found DCDThemeColor", log: bunnyLog, type: .debug)
+  os_log("Found DCDThemeColor", log: revengeLog, type: .debug)
 
   var methodCount: UInt32 = 0
   let methods = class_copyMethodList(target, &methodCount)!
 
-  os_log("DCDThemeColor has %{public}d methods", log: bunnyLog, type: .debug, methodCount)
+  os_log("DCDThemeColor has %{public}d methods", log: revengeLog, type: .debug, methodCount)
 
   for i in 0..<Int(methodCount) {
     let method = methods[i]
     let selector = method_getName(method)
     let methodName = NSStringFromSelector(selector)
     os_log(
-      "Found method %{public}@", log: bunnyLog, type: .debug, methodName)
+      "Found method %{public}@", log: revengeLog, type: .debug, methodName)
     if let semanticColor = semanticColors[methodName] {
       os_log(
-        "Swizzling %{public}@", log: bunnyLog, type: .debug, methodName)
+        "Swizzling %{public}@", log: revengeLog, type: .debug, methodName)
 
       let originalImpl = method_getImplementation(method)
       typealias OriginalType = @convention(c) (AnyObject, Selector) -> UIColor
@@ -115,28 +115,28 @@ func swizzleDCDThemeColor(_ semanticColors: [String: [String]]) {
 }
 
 func swizzleUIColor(_ rawColors: [String: String]) {
-  os_log("Swizzling UIColor", log: bunnyLog, type: .info)
+  os_log("Swizzling UIColor", log: revengeLog, type: .info)
 
   let UIColor: AnyClass = NSClassFromString("UIColor")!
-  os_log("Found instance of UIColor", log: bunnyLog, type: .debug)
+  os_log("Found instance of UIColor", log: revengeLog, type: .debug)
   let target: AnyClass = object_getClass(UIColor)!
 
-  os_log("Found UIColor", log: bunnyLog, type: .debug)
+  os_log("Found UIColor", log: revengeLog, type: .debug)
 
   var methodCount: UInt32 = 0
   let methods = class_copyMethodList(target, &methodCount)!
 
-  os_log("UIColor has %{public}d methods", log: bunnyLog, type: .debug, methodCount)
+  os_log("UIColor has %{public}d methods", log: revengeLog, type: .debug, methodCount)
 
   for i in 0..<Int(methodCount) {
     let method = methods[i]
     let selector = method_getName(method)
     let methodName = NSStringFromSelector(selector)
     os_log(
-      "Found method %{public}@", log: bunnyLog, type: .debug, methodName)
+      "Found method %{public}@", log: revengeLog, type: .debug, methodName)
     if let rawColor = rawColors[methodName] {
       os_log(
-        "Swizzling %{public}@", log: bunnyLog, type: .debug, methodName)
+        "Swizzling %{public}@", log: revengeLog, type: .debug, methodName)
       let rawColorBlock: @convention(block) (AnyObject) -> UIColor = {
         (self: AnyObject) -> UIColor in
         return hexToUIColor(rawColor)!

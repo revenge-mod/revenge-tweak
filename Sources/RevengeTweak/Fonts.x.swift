@@ -1,4 +1,4 @@
-import BunnyTweakC
+import RevengeTweakC
 import Orion
 import UIKit
 import os
@@ -32,14 +32,14 @@ class FontsHook: ClassHook<UIFont> {
 
       return orig.fontWithDescriptor(finalDescriptor, size: size)
     }
-    
+
     return orig.fontWithDescriptor(descriptor, size: size)
   }
 }
 
 func patchFonts(_ main: [String: String], fontDefName: String) {
   for (fontName, url) in main {
-    os_log("Replacing font %{public}@ with URL: %{public}@", log: bunnyLog, type: .info, fontName, url)
+    os_log("Replacing font %{public}@ with URL: %{public}@", log: revengeLog, type: .info, fontName, url)
 
     let fontExtension = URL(string: url)!.pathExtension
     let fontCachePath = pyoncordDirectory
@@ -49,26 +49,26 @@ func patchFonts(_ main: [String: String], fontDefName: String) {
         .appendingPathComponent("\(fontName).\(fontExtension)")
 
     do {
-      os_log("Attempting to register font %{public}@ from %{public}@", log: bunnyLog, type: .info, fontName, url)
+      os_log("Attempting to register font %{public}@ from %{public}@", log: revengeLog, type: .info, fontName, url)
 
       let parent = fontCachePath.deletingLastPathComponent()
       if !FileManager.default.fileExists(atPath: parent.path) {
-        os_log("Creating parent directory: %{public}@", log: bunnyLog, type: .debug, parent.path)
+        os_log("Creating parent directory: %{public}@", log: revengeLog, type: .debug, parent.path)
         try FileManager.default.createDirectory(
           at: parent, withIntermediateDirectories: true, attributes: nil)
       }
 
       // JS side should download these already, but just in case...
       if !FileManager.default.fileExists(atPath: fontCachePath.path) {
-        os_log("Downloading font %{public}@ from %{public}@", log: bunnyLog, type: .debug, fontName, url)
+        os_log("Downloading font %{public}@ from %{public}@", log: revengeLog, type: .debug, fontName, url)
         if let data = try? Data(contentsOf: URL(string: url)!) {
-          os_log("Writing font data to: %{public}@", log: bunnyLog, type: .debug, fontCachePath.path)
+          os_log("Writing font data to: %{public}@", log: revengeLog, type: .debug, fontCachePath.path)
           try? data.write(to: fontCachePath)
         }
       }
 
       if let data = try? Data(contentsOf: fontCachePath) {
-        os_log("Registering font %{public}@ with provider", log: bunnyLog, type: .debug, fontName)
+        os_log("Registering font %{public}@ with provider", log: revengeLog, type: .debug, fontName)
         let provider = CGDataProvider(data: data as CFData)
         let font = CGFont(provider!)
         var error: Unmanaged<CFError>?
@@ -77,7 +77,7 @@ func patchFonts(_ main: [String: String], fontDefName: String) {
         if let existingFont = CGFont(font!.postScriptName!) {
           var unregisterError: Unmanaged<CFError>?
           if !CTFontManagerUnregisterGraphicsFont(existingFont, &unregisterError) {
-            os_log("Failed to deregister font %{public}@: %{public}@", log: bunnyLog, type: .error, 
+            os_log("Failed to deregister font %{public}@: %{public}@", log: revengeLog, type: .error,
               font!.postScriptName! as String,
               String(describing: unregisterError!.takeUnretainedValue()))
           }
@@ -85,15 +85,15 @@ func patchFonts(_ main: [String: String], fontDefName: String) {
 
         if CTFontManagerRegisterGraphicsFont(font!, &error) {
           fontMap[fontName] = font!.postScriptName! as String
-          os_log("Successfully registered font %{public}@ to %{public}@", log: bunnyLog, type: .info, fontName, font!.postScriptName! as String)
+          os_log("Successfully registered font %{public}@ to %{public}@", log: revengeLog, type: .info, fontName, font!.postScriptName! as String)
         } else {
-          os_log("Failed to register font %{public}@: %{public}@", log: bunnyLog, type: .error, fontName, String(describing: error!.takeUnretainedValue()))
+          os_log("Failed to register font %{public}@: %{public}@", log: revengeLog, type: .error, fontName, String(describing: error!.takeUnretainedValue()))
         }
       } else {
-        os_log("Failed to read font data from: %{public}@", log: bunnyLog, type: .error, fontCachePath.path)
+        os_log("Failed to read font data from: %{public}@", log: revengeLog, type: .error, fontCachePath.path)
       }
     } catch {
-      os_log("Failed to register font %{public}@: %{public}@", log: bunnyLog, type: .error, fontName, error.localizedDescription)
+      os_log("Failed to register font %{public}@: %{public}@", log: revengeLog, type: .error, fontName, error.localizedDescription)
     }
   }
 }
