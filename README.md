@@ -10,7 +10,7 @@ Tweak to inject [Revenge](https://github.com/revenge-mod/Revenge) into Discord. 
 
 ## Installation
 
-Builds can be found in the [Releases](https://github.com/Cristiandis/RevengeTweak/releases/latest) tab.
+Builds can be found in the [Releases](https://github.com/revenge-mod/RevengeTweak/releases/latest) tab.
 
 > [!NOTE]
 > Raw decrypted IPAs which are used to provide prepatched IPAs are sourced from the [Enmity](https://github.com/enmity-mod/) community. These raw decrypted IPAs are also used throughout Enmity related projects such as [enmity-mod/tweak](https://github.com/enmity-mod/tweak/) and [acquitelol/rosiecord](https://github.com/acquitelol/rosiecord).\
@@ -29,7 +29,7 @@ Builds can be found in the [Releases](https://github.com/Cristiandis/RevengeTwea
 > [!NOTE]
 > TrollStore may display an encryption warning, which you can disregard.
 
-1. Download and install [Revenge.ipa](https://github.com/Cristiandis/RevengeTweak/releases/latest/download/Revenge.ipa) using your preferred sideloading method.
+1. Download and install [Revenge.ipa](https://github.com/revenge-mod/RevengeTweak/releases/latest/download/Revenge.ipa) using your preferred sideloading method.
 
 ## Building RevengeTweak locally
 
