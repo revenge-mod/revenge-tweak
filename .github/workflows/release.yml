@@ -130,7 +130,7 @@ jobs:
 
       - name: Inject tweak
         run: |
-          cyan -n ${{ env.APP_NAME }} -k PyoncordIcon60x60@2x.png -d -i discord.ipa -o ${{ github.workspace }}/${{ env.APP_NAME }}.ipa -f ${{ github.workspace }}/${{ env.DEB_FILE_NAME }}
+          cyan -n ${{ env.APP_NAME }} -k PyoncordIcon60x60@2x.png -d -i discord.ipa -o ${{ github.workspace }}/${{ env.APP_NAME }}.ipa -f ${{ github.workspace }}/${{ env.DEB_FILE_NAME }} -uws
 
       - name: Upload ipa as artifact
         uses: actions/upload-artifact@v4
