@@ -1,13 +1,13 @@
 {
   "name": "Revenge App Repo",
   "identifier": "io.github.revenge-mod.repo",
-  "iconURL": "https://cdn.discordapp.com/attachments/1205207690352005243/1284228073415249950/icon-altstore.png?ex=66e5de18&is=66e48c98&hm=737f59f228f7d887881fff1fcb6d8b08258b91c3c0d4df8501dfc499b51d870d&",
+  "iconURL": "https://avatars.githubusercontent.com/u/159218871?s=200&v=4",
   "apps": [
     {
       "name": "Revenge",
       "bundleIdentifier": "com.hammerandchisel.discord",
       "developerName": "Cristiandis",
-      "iconURL": "https://cdn.discordapp.com/attachments/1205207690352005243/1284228073415249950/icon-altstore.png?ex=66e5de18&is=66e48c98&hm=737f59f228f7d887881fff1fcb6d8b08258b91c3c0d4df8501dfc499b51d870d&",
+      "iconURL": "https://avatars.githubusercontent.com/u/159218871?s=200&v=4",
       "localizedDescription": "A client mod for Discord",
       "subtitle": "A client mod for Discord",
       "tintColor": "7289da",

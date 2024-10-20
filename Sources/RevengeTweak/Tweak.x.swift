@@ -53,7 +53,7 @@ class LoadHook: ClassHook<RCTCxxBridge> {
       bundleUrl = loaderConfig.customLoadUrl.url
     } else {
       bundleUrl = URL(
-        string: "https://github.com/revenge-mod/Revenge/releases/latest/download/revenge.js")!
+        string: "https://github.com/revenge-mod/revenge-bundle/releases/latest/download/revenge.min.js")!
     }
 
     os_log("Fetching JS bundle", log: revengeLog, type: .info)
