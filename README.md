@@ -1,6 +1,41 @@
-# RevengeTweak
+<p align="center">
+  <picture>
+    <source
+      width="512px"
+      media="(prefers-color-scheme: dark)"
+      srcset="assets/wordmark/wordmark+slogan-dark.svg"
+    >
+    <img
+      width="512px"
+      src="assets/wordmark/wordmark+slogan-light.svg"
+    >
+  </picture>
+  <br>
+  <a href="https://revenge-mod.github.io/">
+       <picture>
+           <source height="32px" media="(prefers-color-scheme: dark)" srcset="assets/logo/logo-dark.svg" />
+           <img height="32px" src="assets/logo/logo-light.svg" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <a href="https://discord.com/invite/ddcQf3s2Uq">
+       <picture>
+           <source height="32px" media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/13122796/178032563-d4e084b7-244e-4358-af50-26bde6dd4996.png" />
+           <img height="32px" src="https://user-images.githubusercontent.com/13122796/178032563-d4e084b7-244e-4358-af50-26bde6dd4996.png" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <a href="https://github.com/revenge-mod">
+       <picture>
+           <source height="32px" media="(prefers-color-scheme: dark)" srcset="https://i.ibb.co/dMMmCrW/Git-Hub-Mark.png" />
+           <img height="32px" src="https://i.ibb.co/9wV3HGF/Git-Hub-Mark-Light.png" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-Tweak to inject [Revenge](https://github.com/revenge-mod/Revenge) into Discord. Forked [BunnyTweak](https://github.com/pyoncord/BunnyTweak), modified to match with [RevengeXposed](https://github.com/revenge-mod/RevengeXposed) behavior. There are still slight differences between these two, and this tweak may be missing some loader features.
+   </a>
+</p>
+
+# 💊 RevengeTweak
+
+Tweak to inject [Revenge](https://github.com/revenge-mod/Revenge) into Discord. Forked [BunnyTweak](https://github.com/pyoncord/BunnyTweak), modified to match with [RevengeXposed](https://github.com/revenge-mod/Revenge-xposed) behavior. There are still slight differences between these two, and this tweak may be missing some loader features.
 
 > [!NOTE]
 > As of right now this tweak does not encompass some functionalities when running in a jailed environment with a wildcard certificate \
@@ -8,9 +43,9 @@ Tweak to inject [Revenge](https://github.com/revenge-mod/Revenge) into Discord. 
 > - setAlternateAppIcon does not work, thus breaking dynamic app icons
 > - sharing files to the application/selecting items via the Files app does not work
 
-## Installation
+## 🔽 Installation
 
-Builds can be found in the [Releases](https://github.com/revenge-mod/RevengeTweak/releases/latest) tab.
+Builds can be found in the [Releases](https://github.com/revenge-mod/revenge-tweak/releases/latest) tab.
 
 > [!NOTE]
 > Raw decrypted IPAs which are used to provide prepatched IPAs are sourced from the [Enmity](https://github.com/enmity-mod/) community. These raw decrypted IPAs are also used throughout Enmity related projects such as [enmity-mod/tweak](https://github.com/enmity-mod/tweak/) and [acquitelol/rosiecord](https://github.com/acquitelol/rosiecord).\
@@ -23,15 +58,15 @@ Builds can be found in the [Releases](https://github.com/revenge-mod/RevengeTwea
 
 ### Jailed
 
-<a href="https://tinyurl.com/2wsywcbw"><img src="https://i.imgur.com/dsbDLK9.png" width="230"></a>
-<a href="https://tinyurl.com/bdha3x3h"><img src="https://i.imgur.com/46qhEAv.png" width="230"></a>
+<a href="https://tinyurl.com/2jyk87mz"><img src="https://i.imgur.com/dsbDLK9.png" width="230"></a>
+<a href="https://tinyurl.com/yjn8fpp3"><img src="https://i.imgur.com/46qhEAv.png" width="230"></a>
 
 > [!NOTE]
 > TrollStore may display an encryption warning, which you can disregard.
 
-1. Download and install [Revenge.ipa](https://github.com/revenge-mod/RevengeTweak/releases/latest/download/Revenge.ipa) using your preferred sideloading method.
+1. Download and install [Revenge.ipa](https://github.com/revenge-mod/revenge-tweak/releases/latest/download/Revenge.ipa) using your preferred sideloading method.
 
-## Building RevengeTweak locally
+## 🛠️ Building RevengeTweak locally
 
 > [!NOTE]
 > These steps assume you use MacOS.
@@ -66,7 +101,7 @@ The first time you run this, it might take a bit longer, but subsequent builds s
 
 The resulting `.deb` files will be in the `packages` folder. As a reminder, `*arm.deb` is for rootful jailbreaks and sideloading, and `*arm64.deb` is for rootless jailbreaks.
 
-## Contributing
+## 📙 Contributing
 
 If you want to contribute, you will basically need to follow the steps for [Building RevengeTweak locally](#building-revengetweak-locally), as well as run `make spm` for the Swift LSP to work.
 
