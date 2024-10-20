@@ -35,6 +35,9 @@
 
 # 💊 RevengeTweak
 
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/revenge-mod/revenge-tweak/release.yml)
+![Open Software License 3](https://img.shields.io/badge/License-OSL%20v3-yellow.svg)
+
 Tweak to inject [Revenge](https://github.com/revenge-mod/Revenge) into Discord. Forked [BunnyTweak](https://github.com/pyoncord/BunnyTweak), modified to match with [RevengeXposed](https://github.com/revenge-mod/Revenge-xposed) behavior. There are still slight differences between these two, and this tweak may be missing some loader features.
 
 > [!NOTE]
