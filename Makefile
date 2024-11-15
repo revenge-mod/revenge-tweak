@@ -7,12 +7,12 @@ include $(THEOS)/makefiles/common.mk
 TWEAK_NAME = Revenge
 BUNDLE_NAME = RevengeResources
 
-Bunny_FILES = $(wildcard Sources/*.x Sources/*.m Sources/**/*.x Sources/**/*.m)
-Bunny_CFLAGS = -fobjc-arc -DPACKAGE_VERSION='@"$(THEOS_PACKAGE_BASE_VERSION)"' -I$(THEOS_PROJECT_DIR)/Headers
-Bunny_FRAMEWORKS = Foundation UIKit CoreGraphics CoreText CoreFoundation
+Revenge_FILES = $(wildcard Sources/*.x Sources/*.m Sources/**/*.x Sources/**/*.m)
+Revenge_CFLAGS = -fobjc-arc -DPACKAGE_VERSION='@"$(THEOS_PACKAGE_BASE_VERSION)"' -I$(THEOS_PROJECT_DIR)/Headers
+Revenge_FRAMEWORKS = Foundation UIKit CoreGraphics CoreText CoreFoundation
 
-BunnyResources_INSTALL_PATH = "/Library/Application\ Support/"
-BunnyResources_RESOURCE_DIRS = Resources
+RevengeResources_INSTALL_PATH = "/Library/Application\ Support/"
+RevengeResources_RESOURCE_DIRS = Resources
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 include $(THEOS_MAKE_PATH)/bundle.mk

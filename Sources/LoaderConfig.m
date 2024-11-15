@@ -12,7 +12,7 @@
 }
 
 + (instancetype)getLoaderConfig {
-    BunnyLog(@"Getting loader config");
+    RevengeLog(@"Getting loader config");
 
     NSURL *loaderConfigUrl = [getPyoncordDirectory() URLByAppendingPathComponent:@"loader.json"];
 
@@ -35,7 +35,7 @@
         }
     }
 
-    BunnyLog(@"Couldn't get loader config");
+    RevengeLog(@"Couldn't get loader config");
     return [LoaderConfig defaultConfig];
 }
 
