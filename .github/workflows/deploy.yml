@@ -1,4 +1,5 @@
-name: Release
+name: Deploy
+run-name: ${{ github.event.inputs.release == 'true' && 'Release' || 'Build' }} for ${{ github.event.inputs.ipa_url }}
 
 on:
    workflow_dispatch:
@@ -8,9 +9,14 @@ on:
             default: ""
             required: true
             type: string
+        release:
+            description: 'Release the build'
+            required: true
+            type: boolean
 
 env:
   GH_TOKEN: ${{ github.token }}
+
 
 jobs:
   build-tweak:
@@ -112,7 +118,6 @@ jobs:
       - name: Download IPA icons
         run: |
           curl -L -o ipa-icons.zip https://raw.githubusercontent.com/pyoncord/assets/main/ipa-icons.zip
-          unzip ipa-icons.zip
 
       - name: Extract Values
         run: |
@@ -124,13 +129,22 @@ jobs:
           ROOTLESS_DEB_FILE_NAME="${PACKAGE}_${VERSION}_iphoneos-arm64.deb"
           echo "ROOTLESS_DEB_FILE_NAME=$ROOTLESS_DEB_FILE_NAME" >> $GITHUB_ENV
           echo "APP_NAME=$NAME" >> $GITHUB_ENV
+      
+      - name: Run patcher
+        run: |
+          curl -L -o patcher https://github.com/Cristiandis/ipa-patcher/releases/download/release-pyon/patcher.mac-amd64
+          chmod +x patcher
+          ./patcher -d discord.ipa -o discord.ipa -i ./ipa-icons.zip
+  
+      - name: Install cyan
+        run: pip install --force-reinstall https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip Pillow
 
       - name: Install cyan
         run: pip install --force-reinstall https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip Pillow
 
       - name: Inject tweak
         run: |
-          cyan -n ${{ env.APP_NAME }} -k PyoncordIcon60x60@2x.png -d -i discord.ipa -o ${{ github.workspace }}/${{ env.APP_NAME }}.ipa -f ${{ github.workspace }}/${{ env.DEB_FILE_NAME }} -uws
+          cyan -duws -i discord.ipa -o ${{ github.workspace }}/${{ env.APP_NAME }}.ipa -f ${{ github.workspace }}/${{ env.DEB_FILE_NAME }}
 
       - name: Upload ipa as artifact
         uses: actions/upload-artifact@v4
@@ -139,6 +153,7 @@ jobs:
             path: ${{ github.workspace }}/${{ env.APP_NAME }}.ipa
 
   release-app:
+    if: ${{ github.event.inputs.release == 'true' }}
     runs-on: macos-14
     needs: build-ipa
     permissions:
@@ -185,6 +200,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   app-repo:
+    if: ${{ github.event.inputs.release == 'true' }}
     continue-on-error: true
     runs-on: macos-14
     needs: release-app

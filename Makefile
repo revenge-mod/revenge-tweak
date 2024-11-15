@@ -1,19 +1,30 @@
-ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
-	TARGET := iphone:clang:latest:15.0
-else
-	TARGET := iphone:clang:latest:12.2
-endif
-
+TARGET := iphone:clang:latest:14.0
+ARCHS = arm64
+INSTALL_TARGET_PROCESSES = Discord
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = RevengeTweak
+TWEAK_NAME = Revenge
+BUNDLE_NAME = RevengeResources
 
-RevengeTweak_FILES = $(shell find Sources/RevengeTweak -name '*.swift') $(shell find Sources/RevengeTweakC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
-RevengeTweak_SWIFTFLAGS = -ISources/RevengeTweakC/include
-RevengeTweak_CFLAGS = -fobjc-arc -ISources/RevengeTweakC/include
+Revenge_FILES = $(wildcard Sources/*.x Sources/*.m Sources/**/*.x Sources/**/*.m)
+Revenge_CFLAGS = -fobjc-arc -DPACKAGE_VERSION='@"$(THEOS_PACKAGE_BASE_VERSION)"' -I$(THEOS_PROJECT_DIR)/Headers
+Revenge_FRAMEWORKS = Foundation UIKit CoreGraphics CoreText CoreFoundation
 
-RevengeTweak_BUNDLE_NAME = RevengePatches
-RevengeTweak_BUNDLE_RESOURCE_DIRS = Resources
+RevengeResources_INSTALL_PATH = "/Library/Application\ Support/"
+RevengeResources_RESOURCE_DIRS = Resources
 
 include $(THEOS_MAKE_PATH)/tweak.mk
+include $(THEOS_MAKE_PATH)/bundle.mk
+
+before-all::
+	$(ECHO_NOTHING)mkdir -p Resources$(ECHO_END)
+	$(ECHO_NOTHING)sed -e 's/@PACKAGE_VERSION@/$(THEOS_PACKAGE_BASE_VERSION)/g' \
+		-e 's/@TWEAK_NAME@/$(TWEAK_NAME)/g' \
+		Sources/payload-base.template.js > Resources/payload-base.js$(ECHO_END)
+
+after-stage::
+	$(ECHO_NOTHING)find $(THEOS_STAGING_DIR) -name ".DS_Store" -delete$(ECHO_END)
+
+after-package::
+	$(ECHO_NOTHING)rm -rf Resources$(ECHO_END)

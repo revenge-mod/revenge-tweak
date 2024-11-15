@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Make and Copy Tweak",
+			"command": "zsh",
+			"args": [
+				"-c",
+				"rm -rf packages && make clean && make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless && cp ./packages/app.pyoncord_*arm64.deb ~/Library/Mobile\\ Documents/com~apple~CloudDocs/"
+			],
+			"problemMatcher": {
+				"owner": "cpp",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true,
+				"close": true
+			}
+		}
+	]
+}
