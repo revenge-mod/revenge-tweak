@@ -12,23 +12,6 @@ static NSString *revengePatchesBundlePath;
 static NSURL *pyoncordDirectory;
 static LoaderConfig *loaderConfig;
 
-%hook NSFileManager
-
-- (NSURL *)containerURLForSecurityApplicationGroupIdentifier:(NSString *)groupIdentifier {
-    RevengeLog(@"containerURLForSecurityApplicationGroupIdentifier called! %@",
-                 groupIdentifier ?: @"nil");
-
-    if (isJailbroken) {
-        return %orig(groupIdentifier);
-    }
-
-    NSArray *paths = [self URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-    NSURL *lastPath = [paths lastObject];
-    return [lastPath URLByAppendingPathComponent:@"AppGroup"];
-}
-
-%end
-
 %hook RCTCxxBridge
 
 - (void)executeApplicationScript:(NSData *)script url:(NSURL *)url async:(BOOL)async {
