@@ -15,13 +15,13 @@ static LoaderConfig *loaderConfig;
 %hook NSFileManager
 
 - (NSURL *)containerURLForSecurityApplicationGroupIdentifier:(NSString *)groupIdentifier {
-    BunnyLog(@"containerURLForSecurityApplicationGroupIdentifier called! %@", 
+    BunnyLog(@"containerURLForSecurityApplicationGroupIdentifier called! %@",
                  groupIdentifier ?: @"nil");
-    
+
     if (isJailbroken) {
         return %orig(groupIdentifier);
     }
-    
+
     NSArray *paths = [self URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
     NSURL *lastPath = [paths lastObject];
     return [lastPath URLByAppendingPathComponent:@"AppGroup"];
@@ -55,7 +55,7 @@ static LoaderConfig *loaderConfig;
     %orig(patchData, source, YES);
 
     __block NSData *bundle = [NSData dataWithContentsOfURL:[pyoncordDirectory URLByAppendingPathComponent:@"bundle.js"]];
-    
+
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
 
@@ -64,16 +64,16 @@ static LoaderConfig *loaderConfig;
         bundleUrl = loaderConfig.customLoadUrl;
         BunnyLog(@"Using custom load URL: %@", bundleUrl.absoluteString);
     } else {
-        bundleUrl = [NSURL URLWithString:@"https://raw.githubusercontent.com/bunny-mod/builds/main/bunny.min.js"];
+        bundleUrl = [NSURL URLWithString:@"https://github.com/revenge-mod/revenge-bundle/releases/latest/download/revenge.min.js"];
         BunnyLog(@"Using default bundle URL: %@", bundleUrl.absoluteString);
     }
 
-    NSMutableURLRequest *bundleRequest = [NSMutableURLRequest requestWithURL:bundleUrl 
-                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
+    NSMutableURLRequest *bundleRequest = [NSMutableURLRequest requestWithURL:bundleUrl
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                                            timeoutInterval:3.0];
 
-    NSString *bundleEtag = [NSString stringWithContentsOfURL:[pyoncordDirectory URLByAppendingPathComponent:@"etag.txt"] 
-                                                   encoding:NSUTF8StringEncoding 
+    NSString *bundleEtag = [NSString stringWithContentsOfURL:[pyoncordDirectory URLByAppendingPathComponent:@"etag.txt"]
+                                                   encoding:NSUTF8StringEncoding
                                                       error:nil];
     if (bundleEtag && bundle) {
         [bundleRequest setValue:bundleEtag forHTTPHeaderField:@"If-None-Match"];
@@ -86,12 +86,12 @@ static LoaderConfig *loaderConfig;
             if (httpResponse.statusCode == 200) {
                 bundle = data;
                 [bundle writeToURL:[pyoncordDirectory URLByAppendingPathComponent:@"bundle.js"] atomically:YES];
-                
+
                 NSString *etag = [httpResponse.allHeaderFields objectForKey:@"Etag"];
                 if (etag) {
-                    [etag writeToURL:[pyoncordDirectory URLByAppendingPathComponent:@"etag.txt"] 
-                         atomically:YES 
-                           encoding:NSUTF8StringEncoding 
+                    [etag writeToURL:[pyoncordDirectory URLByAppendingPathComponent:@"etag.txt"]
+                         atomically:YES
+                           encoding:NSUTF8StringEncoding
                               error:nil];
                 }
             }
@@ -152,25 +152,25 @@ static LoaderConfig *loaderConfig;
 %end
 
 %ctor {
-    @autoreleasepool {        
+    @autoreleasepool {
         source = [NSURL URLWithString:@"bunny"];
-        
+
         NSString *install_prefix = @"/var/jb";
         isJailbroken = [[NSFileManager defaultManager] fileExistsAtPath:install_prefix];
-        
+
         NSString *bundlePath = [NSString stringWithFormat:@"%@/Library/Application Support/BunnyResources.bundle", install_prefix];
         BunnyLog(@"Is jailbroken: %d", isJailbroken);
         BunnyLog(@"Bundle path for jailbroken: %@", bundlePath);
-        
+
         NSString *jailedPath = [[NSBundle mainBundle].bundleURL.path stringByAppendingPathComponent:@"BunnyResources.bundle"];
         BunnyLog(@"Bundle path for jailed: %@", jailedPath);
-        
+
         bunnyPatchesBundlePath = isJailbroken ? bundlePath : jailedPath;
         BunnyLog(@"Selected bundle path: %@", bunnyPatchesBundlePath);
-        
+
         BOOL bundleExists = [[NSFileManager defaultManager] fileExistsAtPath:bunnyPatchesBundlePath];
         BunnyLog(@"Bundle exists at path: %d", bundleExists);
-        
+
         NSError *error = nil;
         NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:bunnyPatchesBundlePath error:&error];
         if (error) {
@@ -178,10 +178,10 @@ static LoaderConfig *loaderConfig;
         } else {
             BunnyLog(@"Bundle contents: %@", bundleContents);
         }
-        
+
         pyoncordDirectory = getPyoncordDirectory();
         loaderConfig = [[LoaderConfig alloc] init];
-        
+
         %init;
     }
-} 
+}

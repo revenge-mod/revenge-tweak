@@ -7,20 +7,20 @@
 + (instancetype)defaultConfig {
     LoaderConfig *config = [[LoaderConfig alloc] init];
     config.customLoadUrlEnabled = NO;
-    config.customLoadUrl = [NSURL URLWithString:@"http://localhost:4040/bunny.js"];
+    config.customLoadUrl = [NSURL URLWithString:@"http://localhost:4040/revenge.js"];
     return config;
 }
 
 + (instancetype)getLoaderConfig {
     BunnyLog(@"Getting loader config");
-    
+
     NSURL *loaderConfigUrl = [getPyoncordDirectory() URLByAppendingPathComponent:@"loader.json"];
-    
+
     if ([[NSFileManager defaultManager] fileExistsAtPath:loaderConfigUrl.path]) {
         NSError *error = nil;
         NSData *data = [NSData dataWithContentsOfURL:loaderConfigUrl];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        
+
         if (json && !error) {
             LoaderConfig *config = [[LoaderConfig alloc] init];
             NSDictionary *customLoadUrl = json[@"customLoadUrl"];
@@ -34,7 +34,7 @@
             return config;
         }
     }
-    
+
     BunnyLog(@"Couldn't get loader config");
     return [LoaderConfig defaultConfig];
 }
@@ -47,9 +47,9 @@
             @"url": self.customLoadUrl.absoluteString
         }
     };
-    
+
     NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:nil];
     return [data writeToURL:loaderConfigUrl atomically:YES];
 }
 
-@end 
+@end

@@ -1,76 +1,40 @@
 {
-  "name": "Pyoncord App Repo",
-  "identifier": "io.github.pyoncord.repo",
-  "iconURL": "https://pyoncord.github.io/assets/icon-altstore.png",
+  "name": "Revenge App Repo",
+  "identifier": "io.github.revenge-mod.repo",
+  "iconURL": "https://avatars.githubusercontent.com/u/159218871?s=200&v=4",
   "apps": [
     {
-      "name": "Bunny",
+      "name": "Revenge",
       "bundleIdentifier": "com.hammerandchisel.discord",
-      "developerName": "Pylix",
-      "iconURL": "https://pyoncord.github.io/assets/icon-altstore.png",
+      "developerName": "Cristiandis",
+      "iconURL": "https://avatars.githubusercontent.com/u/159218871?s=200&v=4",
       "localizedDescription": "A client mod for Discord",
       "subtitle": "A client mod for Discord",
       "tintColor": "7289da",
       "versions": [
         {
-          "version": "247.2",
-          "date": "2024-09-20",
-          "size": 96426195,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v247.2/Bunny.ipa"
+          "version": "250.0",
+          "date": "2024-10-20",
+          "size": 101218873,
+          "downloadURL": "https://github.com/revenge-mod/revenge-tweak/releases/download/v250.0/Revenge.ipa"
         },
         {
-          "version": "247.0",
-          "date": "2024-09-18",
-          "size": 96629525,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v247.0/Bunny.ipa"
+          "version": "250.0",
+          "date": "2024-10-17",
+          "size": 101218840,
+          "downloadURL": "https://github.com/revenge-mod/revenge-tweak/releases/download/v250.0/Revenge.ipa"
+        },
+        {
+          "version": "246.0",
+          "date": "2024-09-15",
+          "size": 102811465,
+          "downloadURL": "https://github.com/revenge-mod/RevengeTweak/releases/download/v246.0/Revenge.ipa"
         },
         {
           "version": "246.0",
           "date": "2024-09-14",
-          "size": 103195545,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v246.0/Bunny.ipa"
-        },
-        {
-          "version": "237.0",
-          "date": "2024-07-13",
-          "size": 114323285,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v237.0/Bunny.ipa"
-        },
-        {
-          "version": "235.0",
-          "date": "2024-06-27",
-          "size": 112173273,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v235.0/Bunny.ipa"
-        },
-        {
-          "version": "234.0",
-          "date": "2024-06-24",
-          "size": 111671815,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v234.0/Bunny.ipa"
-        },
-        {
-          "version": "230.0",
-          "date": "2024-05-18",
-          "size": 102457139,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v230.0/Bunny.ipa"
-        },
-        {
-          "version": "229.0",
-          "date": "2024-05-16",
-          "size": 103776118,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v229.0/Bunny.ipa"
-        },
-        {
-          "version": "226.1",
-          "date": "2024-04-30",
-          "size": 102705408,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v226.1/Pyoncord.ipa"
-        },
-        {
-          "version": "223.0",
-          "date": "2024-04-08",
-          "size": 106082919,
-          "downloadURL": "https://github.com/pyoncord/BunnyTweak/releases/download/v223.0/Pyoncord.ipa"
+          "size": 103194076,
+          "downloadURL": "https://github.com/revenge-mod/RevengeTweak/releases/download/v246.0/Revenge.ipa"
         }
       ],
       "appPermissions": {}

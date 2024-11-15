@@ -1,11 +1,11 @@
-Package: app.pyoncord
-Name: Bunny
-Version: 0.4.0
+Package: io.github.revenge-mod.app
+Name: Revenge
+Version: 2.0.0
 Architecture: iphoneos-arm
-Description: A client modification for Discord's mobile app.
-Maintainer: Pylix
-Author: Pylix, Adrian Castro, FieryFlames
-Icon: https://avatars.githubusercontent.com/u/132727175
+Description: A mod for Discord's mobile apps.
+Maintainer: Cristiandis
+Author: Pylix, Adrian Castro, FieryFlames, Cristiandis
+Icon: https://avatars.githubusercontent.com/u/159218871
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.5000)
-Conflicts: app.enmity, mod.vendetta
+Conflicts: app.enmity, mod.vendetta, app.bunny
