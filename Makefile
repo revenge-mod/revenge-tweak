@@ -4,8 +4,8 @@ INSTALL_TARGET_PROCESSES = Discord
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = Bunny
-BUNDLE_NAME = BunnyResources
+TWEAK_NAME = Revenge
+BUNDLE_NAME = RevengeResources
 
 Bunny_FILES = $(wildcard Sources/*.x Sources/*.m Sources/**/*.x Sources/**/*.m)
 Bunny_CFLAGS = -fobjc-arc -DPACKAGE_VERSION='@"$(THEOS_PACKAGE_BASE_VERSION)"' -I$(THEOS_PROJECT_DIR)/Headers
