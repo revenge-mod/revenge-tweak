@@ -162,9 +162,10 @@ static LoaderConfig *loaderConfig;
             RevengeLog(@"Bundle contents: %@", bundleContents);
         }
 
-        pyoncordDirectory = getPyoncordDirectory();
+pyoncordDirectory = getPyoncordDirectory();
         loaderConfig = [[LoaderConfig alloc] init];
-
+        [loaderConfig loadConfig];
+        
         %init;
     }
 }
