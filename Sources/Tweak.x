@@ -21,20 +21,20 @@ static LoaderConfig *loaderConfig;
 
     NSBundle *revengePatchesBundle = [NSBundle bundleWithPath:revengePatchesBundlePath];
     if (!revengePatchesBundle) {
-        RevengeLog(@"Failed to load RevengePatches bundle from path: %@", revengePatchesBundlePath);
+        Log(@"Failed to load RevengePatches bundle from path: %@", revengePatchesBundlePath);
         showErrorAlert(@"Loader Error", @"Failed to initialize mod loader. Please reinstall the tweak.");
         return %orig;
     }
 
     NSURL *patchPath = [revengePatchesBundle URLForResource:@"payload-base" withExtension:@"js"];
     if (!patchPath) {
-        RevengeLog(@"Failed to find payload-base.js in bundle");
+        Log(@"Failed to find payload-base.js in bundle");
         showErrorAlert(@"Loader Error", @"Failed to initialize mod loader. Please reinstall the tweak.");
         return %orig;
     }
 
     NSData *patchData = [NSData dataWithContentsOfURL:patchPath];
-    RevengeLog(@"Injecting loader");
+    Log(@"Injecting loader");
     %orig(patchData, source, YES);
 
     __block NSData *bundle = [NSData dataWithContentsOfURL:[pyoncordDirectory URLByAppendingPathComponent:@"bundle.js"]];
@@ -45,10 +45,10 @@ static LoaderConfig *loaderConfig;
     NSURL *bundleUrl;
     if (loaderConfig.customLoadUrlEnabled && loaderConfig.customLoadUrl) {
         bundleUrl = loaderConfig.customLoadUrl;
-        RevengeLog(@"Using custom load URL: %@", bundleUrl.absoluteString);
+        Log(@"Using custom load URL: %@", bundleUrl.absoluteString);
     } else {
         bundleUrl = [NSURL URLWithString:@"https://github.com/revenge-mod/revenge-bundle/releases/latest/download/revenge.min.js"];
-        RevengeLog(@"Using default bundle URL: %@", bundleUrl.absoluteString);
+        Log(@"Using default bundle URL: %@", bundleUrl.absoluteString);
     }
 
     NSMutableURLRequest *bundleRequest = [NSMutableURLRequest requestWithURL:bundleUrl
@@ -97,13 +97,13 @@ static LoaderConfig *loaderConfig;
         NSError *jsonError;
         NSDictionary *fontDict = [NSJSONSerialization JSONObjectWithData:fontData options:0 error:&jsonError];
         if (!jsonError && fontDict[@"main"]) {
-            RevengeLog(@"Found font configuration, applying...");
+            Log(@"Found font configuration, applying...");
             patchFonts(fontDict[@"main"], fontDict[@"name"]);
         }
     }
 
     if (bundle) {
-        RevengeLog(@"Executing JS bundle");
+        Log(@"Executing JS bundle");
         %orig(bundle, source, async);
     }
 
@@ -117,7 +117,7 @@ static LoaderConfig *loaderConfig;
         if (!error) {
             for (NSURL *fileURL in contents) {
                 if ([[fileURL pathExtension] isEqualToString:@"js"]) {
-                    RevengeLog(@"Executing preload JS file %@", fileURL.absoluteString);
+                    Log(@"Executing preload JS file %@", fileURL.absoluteString);
                     NSData *data = [NSData dataWithContentsOfURL:fileURL];
                     if (data) {
                         %orig(data, source, async);
@@ -125,7 +125,7 @@ static LoaderConfig *loaderConfig;
                 }
             }
         } else {
-            RevengeLog(@"Error reading contents of preloads directory");
+            Log(@"Error reading contents of preloads directory");
         }
     }
 
@@ -142,30 +142,30 @@ static LoaderConfig *loaderConfig;
         isJailbroken = [[NSFileManager defaultManager] fileExistsAtPath:install_prefix];
 
         NSString *bundlePath = [NSString stringWithFormat:@"%@/Library/Application Support/RevengeResources.bundle", install_prefix];
-        RevengeLog(@"Is jailbroken: %d", isJailbroken);
-        RevengeLog(@"Bundle path for jailbroken: %@", bundlePath);
+        Log(@"Is jailbroken: %d", isJailbroken);
+        Log(@"Bundle path for jailbroken: %@", bundlePath);
 
         NSString *jailedPath = [[NSBundle mainBundle].bundleURL.path stringByAppendingPathComponent:@"RevengeResources.bundle"];
-        RevengeLog(@"Bundle path for jailed: %@", jailedPath);
+        Log(@"Bundle path for jailed: %@", jailedPath);
 
         revengePatchesBundlePath = isJailbroken ? bundlePath : jailedPath;
-        RevengeLog(@"Selected bundle path: %@", revengePatchesBundlePath);
+        Log(@"Selected bundle path: %@", revengePatchesBundlePath);
 
         BOOL bundleExists = [[NSFileManager defaultManager] fileExistsAtPath:revengePatchesBundlePath];
-        RevengeLog(@"Bundle exists at path: %d", bundleExists);
+        Log(@"Bundle exists at path: %d", bundleExists);
 
         NSError *error = nil;
         NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:revengePatchesBundlePath error:&error];
         if (error) {
-            RevengeLog(@"Error listing bundle contents: %@", error);
+            Log(@"Error listing bundle contents: %@", error);
         } else {
-            RevengeLog(@"Bundle contents: %@", bundleContents);
+            Log(@"Bundle contents: %@", bundleContents);
         }
 
 pyoncordDirectory = getPyoncordDirectory();
         loaderConfig = [[LoaderConfig alloc] init];
         [loaderConfig loadConfig];
-        
+
         %init;
     }
 }

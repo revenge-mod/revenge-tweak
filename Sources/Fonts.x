@@ -51,10 +51,10 @@ NSMutableDictionary<NSString *, NSString *> *fontMap;
 %end
 
 void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontDefName) {
-    RevengeLog(@"patchFonts called with fonts: %@ and def name: %@", mainFonts, fontDefName);
+    Log(@"patchFonts called with fonts: %@ and def name: %@", mainFonts, fontDefName);
 
     if (!fontMap) {
-        RevengeLog(@"Creating new fontMap");
+        Log(@"Creating new fontMap");
         fontMap = [NSMutableDictionary dictionary];
     }
 
@@ -62,12 +62,12 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
                                                  encoding:NSUTF8StringEncoding
                                                     error:nil];
     if (fontJson) {
-        RevengeLog(@"Found existing fonts.json: %@", fontJson);
+        Log(@"Found existing fonts.json: %@", fontJson);
     }
 
     for (NSString *fontName in mainFonts) {
         NSString *url = mainFonts[fontName];
-        RevengeLog(@"Replacing font %@ with URL: %@", fontName, url);
+        Log(@"Replacing font %@ with URL: %@", fontName, url);
 
         NSURL *fontURL = [NSURL URLWithString:url];
         NSString *fontExtension = fontURL.pathExtension;
@@ -81,7 +81,7 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
 
         NSURL *parentDir = [fontCachePath URLByDeletingLastPathComponent];
         if (![[NSFileManager defaultManager] fileExistsAtPath:parentDir.path]) {
-            RevengeLog(@"Creating parent directory: %@", parentDir.path);
+            Log(@"Creating parent directory: %@", parentDir.path);
             [[NSFileManager defaultManager] createDirectoryAtURL:parentDir
                                    withIntermediateDirectories:YES
                                                     attributes:nil
@@ -89,17 +89,17 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
         }
 
         if (![[NSFileManager defaultManager] fileExistsAtPath:fontCachePath.path]) {
-            RevengeLog(@"Downloading font %@ from %@", fontName, url);
+            Log(@"Downloading font %@ from %@", fontName, url);
             NSData *data = [NSData dataWithContentsOfURL:fontURL];
             if (data) {
-                RevengeLog(@"Writing font data to: %@", fontCachePath.path);
+                Log(@"Writing font data to: %@", fontCachePath.path);
                 [data writeToURL:fontCachePath atomically:YES];
             }
         }
 
         NSData *fontData = [NSData dataWithContentsOfURL:fontCachePath];
         if (fontData) {
-            RevengeLog(@"Registering font %@ with provider", fontName);
+            Log(@"Registering font %@ with provider", fontName);
             CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)fontData);
             CGFontRef font = CGFontCreateWithDataProvider(provider);
 
@@ -110,7 +110,7 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
                 if (existingFont) {
                     CFErrorRef unregisterError = NULL;
                     if (!CTFontManagerUnregisterGraphicsFont(font, &unregisterError)) {
-                        RevengeLog(@"Failed to deregister font %@: %@", (__bridge NSString *)postScriptName,
+                        Log(@"Failed to deregister font %@: %@", (__bridge NSString *)postScriptName,
                                unregisterError ? (__bridge NSString *)CFErrorCopyDescription(unregisterError) : @"Unknown error");
                         if (unregisterError) CFRelease(unregisterError);
                     }
@@ -120,7 +120,7 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
                 CFErrorRef error = NULL;
                 if (CTFontManagerRegisterGraphicsFont(font, &error)) {
                     fontMap[fontName] = (__bridge NSString *)postScriptName;
-                    RevengeLog(@"Successfully registered font %@ to %@", fontName, (__bridge NSString *)postScriptName);
+                    Log(@"Successfully registered font %@ to %@", fontName, (__bridge NSString *)postScriptName);
 
                     NSError *jsonError;
                     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:fontMap options:0 error:&jsonError];
@@ -129,7 +129,7 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
                     }
                 } else {
                     NSString *errorDesc = error ? (__bridge NSString *)CFErrorCopyDescription(error) : @"Unknown error";
-                    RevengeLog(@"Failed to register font %@: %@", fontName, errorDesc);
+                    Log(@"Failed to register font %@: %@", fontName, errorDesc);
                     if (error) CFRelease(error);
                 }
 
@@ -144,7 +144,7 @@ void patchFonts(NSDictionary<NSString *, NSString *> *mainFonts, NSString *fontD
 %ctor {
     @autoreleasepool {
         fontMap = [NSMutableDictionary dictionary];
-        RevengeLog(@"Font hooks initialized");
+        Log(@"Font hooks initialized");
         %init;
     }
 }
