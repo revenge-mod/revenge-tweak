@@ -136,7 +136,12 @@ jobs:
       
       - name: Run patcher
         run: |
-          curl -L -o patcher https://github.com/Cristiandis/ipa-patcher/releases/download/release-pyon/patcher.mac-amd64
+          curl -L -o patcher https://github.com/Cristiandis/ipa-patcher/releases/download/v1.0/patcher.mac-amd64
+          echo "9ddca78113c62e674b341ca845b4ab4653ea8f143dc429a4dc3595e0ca66b815  patcher" > patcher.sha256
+          if ! shasum -a 256 -c patcher.sha256; then
+            echo "SHA256 verification failed"
+            exit 1
+          fi
           chmod +x patcher
           ./patcher -d discord.ipa -o discord.ipa -i ./ipa-icons.zip
   
