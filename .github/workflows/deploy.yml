@@ -136,7 +136,7 @@ jobs:
       
       - name: Run patcher
         run: |
-          curl -L -o patcher https://github.com/Cristiandis/ipa-patcher/releases/download/release-pyon/patcher.mac-amd64
+          curl -L -o patcher https://github.com/Cristiandis/ipa-patcher/releases/download/release-v1.0/patcher.mac-amd64
           chmod +x patcher
           ./patcher -d discord.ipa -o discord.ipa -i ./ipa-icons.zip
   
