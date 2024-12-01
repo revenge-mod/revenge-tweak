@@ -56,13 +56,6 @@
 }
 
 
-+ (instancetype)defaultConfig {
-    LoaderConfig *config = [[LoaderConfig alloc] init];
-    config.customLoadUrlEnabled = NO;
-    config.customLoadUrl = [NSURL URLWithString:@"http://localhost:4040/revenge.js"];
-    return config;
-}
-
 + (instancetype)getLoaderConfig {
     RevengeLog(@"Getting loader config");
 
