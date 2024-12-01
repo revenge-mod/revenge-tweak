@@ -13,6 +13,12 @@
       "tintColor": "7289da",
       "versions": [
         {
+          "version": "256.1",
+          "date": "2024-12-01",
+          "size": 94144621,
+          "downloadURL": "https://github.com/Laitinlok/revenge-tweak/releases/download/v256.1/Revenge.ipa"
+        },
+        {
           "version": "254.0",
           "date": "2024-11-15",
           "size": 98005042,
